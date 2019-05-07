@@ -16,32 +16,41 @@ These class id's seem to change over time, so please double check them if the sc
 See ReadMe for preview
 */
 
-see_more_button_class='._45yr'
-ad_cats_class='._45ys'
-category_class='_2b2e'
-remove_button_class='._2b2p'
+var see_more_button_class='._45yr'
+var ad_cats_class='._45ys'
+var category_class='_2b2e'
+var remove_button_class='._2b2p'
+
+var see_more_button_delay = 2000;
+var remove_button_delay = 100;
 
 // The actual script
 
 var see_more = jQuery(see_more_button_class);
 console.log("Clicking all see more buttons");
 while(see_more.length>0) {
-	console.log("See more buttons found", see_more.length);
-	for(var i=0;i<see_more.length;i++) {
-		console.log("Clicking "+i+" of "+see_more.length);
-		jQuery(see_more[i]).click();
-	}
-	see_more = jQuery(see_more_button_class);
+  console.log("See more buttons found", see_more.length);
+  for(var i=0;i<see_more.length;i++) {
+    console.log("Clicking "+i+" of "+see_more.length);
+    jQuery(see_more[i]).click();
+  }
+  see_more = jQuery(see_more_button_class);
 }
 console.log("Waiting for all categories to load....");
-setTimeout(function(){
-	console.log("Turning off ads");
-	var ad_cats= jQuery(ad_cats_class);
-	for(var i=0;i<ad_cats.length;i++) {
-		var cat = jQuery(ad_cats[i]).find(category_class).html();
-		console.log("Turning off category "+i+" of "+ad_cats.length+":"+cat);
-		var button = jQuery(ad_cats[i]).find(remove_button_class);
-		console.log("button " +button)
-		jQuery(button).click();
-	}	
-}, 15000);
+setTimeout(function () {
+  console.log("Turning off ads");
+  var ad_cats= jQuery(ad_cats_class);
+  for(var i = 0; i < ad_cats.length; ++i) {
+    var cat = jQuery(ad_cats[i]).find(category_class).html();
+    console.log("Turning off category " + i + " of " + ad_cats.length + ":" + cat);
+    var button = jQuery(ad_cats[i]).find(remove_button_class);
+    console.log("button " + button)
+    for (var j = 0; j < button.length; ++j) {
+      (function (k) {
+        setTimeout(function () {
+          jQuery(button[k]).click()
+        }, k * remove_button_delay);
+      })(j);
+    }
+  }
+}, see_more_button_delay);
